@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>问卷调查系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- load css -->
+    <link rel="stylesheet" type="text/css" href="Content/layui/css/layui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="Content/css/login.css" media="all">
+    <style>
+        .verify-canvas {
+            width: 140px;
+            height: 40px;
+            cursor: pointer;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="layui-canvs"></div>
+    <div class="layui-layout layui-layout-login">
+        <h1>
+            <strong>问卷调查系统</strong>
+            <em>Management System</em>
+        </h1>
+        <div class="layui-user-icon larry-login" id="divname" hidden>
+            <input type="text" placeholder="账号" class="login_txtbx" id="userid" />
+        </div>
+        <div class="layui-pwd-icon larry-login" id="divpwd" hidden>
+            <input type="password" placeholder="密码" class="login_txtbx" id="pwd" />
+        </div>
+        <div class="layui-user-icon larry-login" id="divphone" hidden>
+            <input type="text" placeholder="电话" class="login_txtbx" id="phone" />
+        </div>
+        <div class="layui-user-icon larry-login" id="divverifycode" hidden>
+            <input type="text" placeholder="邀请码" class="login_txtbx" id="userVerifyCode" />
+        </div>
+        <div class="layui-val-icon larry-login">
+            <div class="layui-code-box">
+                <input type="text" id="code" name="code" placeholder="验证码" maxlength="4" class="login_txtbx">
+                <canvas id="verifyCanvas" class="verify-canvas" onclick="refreshVerifyCode()"></canvas>
+            </div>
+        </div>
+        <div class="layui-submit larry-login">
+            <input type="button" value="立即登录" class="submit_btn" />
+        </div>
+        <div class="layui-login-text">
+            <p>© 容博 版权所有</p>
+        </div>
+    </div>
+    <!-- 先引入 jQuery，再引入其他 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="Content/layui/lay/dest/layui.all.js"></script>
+    <script src="Content/js/login.js"></script>
+    <script src="Content/js/jparticle.jquery.js"></script>
+
+    <script type="text/javascript">
+        var QuestionnaireGuid = '4d7518ca-d8bd-4cb5-95dc-ed6bca7a8243';
+        var LoginType = 2;
+        var currentVerifyCode = ''; // 存储当前验证码
+        
+        $(function () {
+            $(".layui-canvs").jParticle({
+                background: "#141414",
+                color: "#E6E6E6"
+            });
+            
+            // 初始化验证码
+            refreshVerifyCode();
+            
+            $('#userid,#pwd,#code').bind('keydown', function (event) {
+                if (event.keyCode == "13") {
+                    login();
+                }
+            });
+
+            $(".submit_btn").click(function () {
+                login();
+            });
+
+            login = function () {
+                var userId = $("#userid").val() || "";
+                var pwd = $("#pwd").val() || "";
+                var code = $("#code").val() || "";
+                var phone = $("#phone").val() || "";
+                var userVerifyCode = $("#userVerifyCode").val() || "";
+                var model = {};
+                
+                // 验证码验证
+                if (code.trim().length <= 0 || code.trim() == "") {
+                    layer.msg('验证码不能为空', { time: 2000, icon: 5 });
+                    return false;
+                }
+                if (code.toUpperCase() !== currentVerifyCode) {
+                    layer.msg('验证码错误', { time: 2000, icon: 5 });
+                    refreshVerifyCode();
+                    return false;
+                }
+                
+                // 邀请码验证(LoginType=2时)
+                if (LoginType == 2) {
+                    if (userVerifyCode.trim().length !== 6) {
+                        layer.msg('邀请码需为6位数字', { time: 2000, icon: 5 });
+                        return false;
+                    }
+                    if (isNaN(parseInt(userVerifyCode))) {
+                        layer.msg('邀请码需为数字', { time: 2000, icon: 5 });
+                        return false;
+                    }
+                    // 邀请码验证通过，直接跳转到问卷页面
+                    layer.msg('登录成功', { time: 1000, icon: 6 }, function () {
+                        // 确保跳转到正确的问卷页面并传递GUID参数
+                        location.href = 'wenjuan.html?guid=' + QuestionnaireGuid;
+                    });
+                    return; // 阻止后续操作
+                }
+
+                // 其他登录类型的原有逻辑
+                if (LoginType == 1) {
+                    if (userId.trim().length <= 0 || userId.trim() == "") {
+                        layer.msg('用户名不能为空', { time: 2000, icon: 5 });
+                        return false;
+                    }
+                    if (pwd.trim().length <= 0 || pwd.trim() == "") {
+                        layer.msg('密码不能为空', { time: 2000, icon: 5 });
+                        return false;
+                    }
+                    model = { "Name": userId, "Pwd": pwd, "VerifyCode": code, "QGuid": QuestionnaireGuid };
+                } else if (LoginType == 3) {
+                    if (phone.trim().length <= 0 || phone.trim() == "") {
+                        layer.msg('电话号码不能为空', { time: 2000, icon: 5 });
+                        return false;
+                    }
+                    model = { "Phone": phone, "VerifyCode": code, "QGuid": QuestionnaireGuid };
+                } else {
+                    if (userId.trim().length <= 0 || userId.trim() == "") {
+                        layer.msg('用户名不能为空', { time: 2000, icon: 5 });
+                        return false;
+                    }
+                    if (pwd.trim().length <= 0 || pwd.trim() == "") {
+                        layer.msg('密码不能为空', { time: 2000, icon: 5 });
+                        return false;
+                    }
+                    model = { "Name": userId, "Pwd": pwd, "VerifyCode": code, "QGuid": QuestionnaireGuid };
+                }
+
+                // 由于邀请码已处理，其他登录类型仍保持原有AJAX请求
+                $.ajax({
+                    url: "/UserLogin/Login",
+                    type: "post",
+                    dataType: "json",
+                    data: model,
+                    success: function (data) {
+                        if (data.code == 0 || data.code === "0") {
+                            layer.msg(data.message, { time: 1000, icon: 6 }, function () {
+                                // 确保跳转到正确的问卷页面并传递GUID参数
+                                location.href = 'wenjuan.html?guid=' + QuestionnaireGuid;
+                            });
+                        } else {
+                            layer.msg(data.message, { time: 2000, icon: 5 });
+                            refreshVerifyCode();
+                            return false;
+                        }
+                    },
+                    error: function () {
+                        layer.msg('网络出错，请稍后重试', { time: 2000, icon: 5 });
+                    }
+                });
+            }
+
+            initpage = function () {
+                if (LoginType == 1) {
+                    $('#divname').show();
+                    $('#divpwd').show();
+                } else if (LoginType == 2) {
+                    $('#divverifycode').show();
+                } else if (LoginType == 3) {
+                    $('#divphone').show();
+                } else {
+                    $('#divname').show();
+                    $('#divpwd').show();
+                }
+            }
+            initpage();
+        });
+        
+        // 生成随机验证码
+        function generateVerifyCode(length = 4) {
+            const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let code = '';
+            for (let i = 0; i < length; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+        
+        // 刷新验证码
+        function refreshVerifyCode() {
+            currentVerifyCode = generateVerifyCode();
+            const canvas = document.getElementById('verifyCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // 调整canvas尺寸避免模糊
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = 140 * dpr;
+            canvas.height = 40 * dpr;
+            canvas.style.width = '140px';
+            canvas.style.height = '40px';
+            ctx.scale(dpr, dpr);
+            
+            // 绘制背景
+            ctx.fillStyle = '#f5f5f5';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // 绘制干扰线
+            ctx.strokeStyle = '#ddd';
+            for (let i = 0; i < 5; i++) {
+                ctx.beginPath();
+                ctx.moveTo(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height
+                );
+                ctx.lineTo(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height
+                );
+                ctx.stroke();
+            }
+            
+            // 绘制验证码
+            ctx.font = 'bold 20px Arial';
+            ctx.fillStyle = '#333';
+            ctx.textBaseline = 'middle';
+            
+            for (let i = 0; i < currentVerifyCode.length; i++) {
+                const x = 30 + i * 28;
+                const y = 20;
+                const rotate = (Math.random() - 0.5) * 20; // 随机旋转角度
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(rotate * Math.PI / 180);
+                ctx.fillText(currentVerifyCode[i], 0, 0);
+                ctx.restore();
+            }
+
+            // 绘制干扰点
+            ctx.fillStyle = '#999';
+            for (let i = 0; i < 30; i++) {
+                ctx.beginPath();
+                ctx.arc(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height,
+                    1, 0, 2 * Math.PI
+                );
+                ctx.fill();
+            }
+        }
+    </script>
+</body>
+</html>

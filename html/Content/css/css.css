@@ -1,0 +1,130 @@
+﻿.layui-required {
+    color: red;
+}
+
+.survey .layui-form-label {
+    float: inherit;
+    width: auto;
+    text-align: left;
+}
+
+.survey .layui-input-block {
+    margin-left: 16px;
+}
+
+.survey .layui-form-radio {
+    display: block;
+}
+
+.survey .qname {
+    margin-bottom: 20px;
+    color: #009688;
+    font-weight: bold;
+}
+
+.survey {
+    padding: 0 20px;
+    background: #ffffff;
+}
+
+.survey-button {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+    .survey-button .layui-input-block {
+        margin-left: 0;
+    }
+
+    .survey-button .layui-btn {
+        padding: 0 68px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        font-size: 16px;
+        height: 45px;
+    }
+
+.survey .qnamef {
+    margin-bottom: 20px;
+    color: cadetblue;
+}
+
+.title {
+    border-bottom: 1px dashed #dddddd;
+    margin-bottom: 10px
+}
+/*html {
+	background-image: url('../img/123.png');
+}*/
+@media screen and (min-width:500px) {
+    .survey {
+        width: 1000px;
+        margin: 173px auto 0;
+        padding-top: 10px;
+        /*border: 3px solid #dddddd;*/
+    }
+
+    .survey-button {
+        background: #ffffff;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .layui-form-item .layui-form-label {
+        text-overflow: inherit;
+        overflow: auto;
+        white-space: initial;
+    }
+
+    .survey .formQuestion {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+    .survey .qname {
+        font-size: 23px;
+    }
+
+    .survey {
+        padding: 0 20px 78px 20px;
+    }
+
+    .survey-button {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        margin-bottom: 0;
+    }
+
+        .survey-button .layui-btn {
+            margin-top: 20px;
+            width: 100%;
+            height: 50px;
+            font-size: 16px;
+            margin-bottom: 0;
+        }
+}
+
+.que.layui-input-inline {
+    width: 500px;
+}
+
+.que .layui-input {
+    width: 260px;
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 15px;
+}
+
+
+.percentbar {
+    width: 80%;
+    display: inline-block;
+    float: left;
+    margin-top: 1rem;
+}
+
+.essayquestion:hover {
+    background-color: #f2f2f2;
+    cursor: pointer
+}
