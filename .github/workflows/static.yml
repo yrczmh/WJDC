@@ -1,0 +1,30 @@
+name: Deploy Static HTML to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # 或 master，根据你的默认分支名修改
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: .  # 静态文件所在路径，可以改为 dist/、build/ 等
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v2
