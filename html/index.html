@@ -10,18 +10,94 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <!-- load css -->
-    <link rel="stylesheet" type="text/css" href="Content/layui/css/layui.css" media="all">
-    <link rel="stylesheet" type="text/css" href="Content/css/login.css" media="all">
+    <link rel="stylesheet" href="Content/layui/css/layui.css" >
+    <link rel="stylesheet" href="Content/css/login.css" >
+
+    <script>
+        layui.config({
+            // 设置模块加载超时时间为 30 秒（30000 毫秒）
+            timeout: 30000
+        });
+    </script>
     <style>
+
         .verify-canvas {
             width: 140px;
             height: 40px;
             cursor: pointer;
             vertical-align: middle;
         }
+        /* 自定义弹窗样式 */
+        .custom-modal {
+            display: none; /* 默认隐藏 */
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 190px;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4); /* 黑色半透明遮罩 */
+        }
+
+        .custom-modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 250px; /* 缩小宽度 */
+            text-align: center;
+            position: relative;
+        }
+
+        .message-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-icon {
+            width: 30px; /* 调整图标大小 */
+            height: 30px;
+            margin-right: 10px; /* 图标与文字之间的间距 */
+        }
+
+        #modalMessage {
+            font-size: 16px;
+            color: #333;
+            margin: 0; /* 移除默认的上下边距 */
+        }
+
+        .close-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .close-btn:hover {
+            background-color: #d32f2f;
+        }
     </style>
 </head>
 <body>
+    <!-- 自定义弹窗 -->
+    <div id="customModal" class="custom-modal">
+        <div class="custom-modal-content">
+            <img src=Content/img/211.png alt="Icon" class="modal-icon">
+            <p id="modalMessage"></p>
+        </div>
+    </div>
+        <div id="customModal2" class="custom-modal">
+        <div class="custom-modal-content">
+            <img src=Content/img/222.png alt="Icon" class="modal-icon">
+            <p id="modalMessage2"></p>
+        </div>
+    </div>
+
     <div class="layui-canvs"></div>
     <div class="layui-layout layui-layout-login">
         <h1>
@@ -63,7 +139,65 @@
         var QuestionnaireGuid = '4d7518ca-d8bd-4cb5-95dc-ed6bca7a8243';
         var LoginType = 2;
         var currentVerifyCode = ''; // 存储当前验证码
-        
+
+        function showModal(message) {
+            var modal = document.getElementById("customModal");
+            var modalMessage = document.getElementById("modalMessage");
+
+            // 设置提示信息并显示弹窗
+            modalMessage.innerText = message;
+            modal.style.display = "block";
+
+            // 设置 3 秒后自动隐藏弹窗
+            setTimeout(function () {
+                modal.style.display = "none";
+            }, 1500); // 3000 毫秒 = 3 秒
+        }
+
+        // 点击遮罩层关闭弹窗
+        window.onclick = function (event) {
+            var modal = document.getElementById("customModal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };
+
+        window.onclick = function (event) {
+            var modal = document.getElementById("customModal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };
+        function showModal2(message) {
+            var modal = document.getElementById("customModal2");
+            var modalMessage = document.getElementById("modalMessage2");
+
+            // 设置提示信息并显示弹窗
+            modalMessage.innerText = message;
+            modal.style.display = "block";
+
+            // 设置 3 秒后自动隐藏弹窗
+            setTimeout(function () {
+                modal.style.display = "none";
+            }, 1500); // 3000 毫秒 = 3 秒
+        }
+
+        // 点击遮罩层关闭弹窗
+        window.onclick = function (event) {
+            var modal = document.getElementById("customModal2");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };
+
+        window.onclick = function (event) {
+            var modal = document.getElementById("customModal2");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };
+
+
         $(function () {
             $(".layui-canvs").jParticle({
                 background: "#141414",
@@ -93,11 +227,12 @@
                 
                 // 验证码验证
                 if (code.trim().length <= 0 || code.trim() == "") {
-                    layer.msg('验证码不能为空', { time: 2000, icon: 5 });
-                    return false;
+                    showModal("验证码不能为空");
+                        return false;
                 }
                 if (code.toUpperCase() !== currentVerifyCode) {
-                    layer.msg('验证码错误', { time: 2000, icon: 5 });
+                            // 示例调用
+                    showModal("验证码错误");
                     refreshVerifyCode();
                     return false;
                 }
@@ -105,14 +240,15 @@
                 // 邀请码验证(LoginType=2时)
                 if (LoginType == 2) {
                     if (userVerifyCode.trim().length !== 6) {
-                        layer.msg('邀请码需为6位数字', { time: 2000, icon: 5 });
+                        showModal("邀请码错误");
                         return false;
                     }
                     if (isNaN(parseInt(userVerifyCode))) {
-                        layer.msg('邀请码需为数字', { time: 2000, icon: 5 });
+                        showModal("邀请码错误");
                         return false;
                     }
                     // 邀请码验证通过，直接跳转到问卷页面
+                    showModal2("登录成功");
                     layer.msg('登录成功', { time: 1000, icon: 6 }, function () {
                         // 确保跳转到正确的问卷页面并传递GUID参数
                         location.href = 'wenjuan.html?guid=' + QuestionnaireGuid;

@@ -195,10 +195,69 @@
         margin-bottom: 12px;
       }
     }
+            .custom-modal {
+            display: none; /* 默认隐藏 */
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 190px;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0); /* 黑色半透明遮罩 */
+        }
+
+        .custom-modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 250px; /* 缩小宽度 */
+            text-align: center;
+            position: relative;
+        }
+
+        .message-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-icon {
+            width: 30px; /* 调整图标大小 */
+            height: 30px;
+            margin-right: 10px; /* 图标与文字之间的间距 */
+        }
+
+        #modalMessage {
+            font-size: 16px;
+            color: #333;
+            margin: 0; /* 移除默认的上下边距 */
+        }
+
+        .close-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .close-btn:hover {
+            background-color: #d32f2f;
+        }
   </style>
 </head>
 
 <body>
+  <div id="customModal" class="custom-modal">
+      <div class="custom-modal-content">
+          <img src=Content/img/211.png alt="Icon" class="modal-icon">
+          <p id="modalMessage"></p>
+      </div>
+  </div>
   <div class="background-image"></div>
   <div class="survey-container">
     <div class="survey-content">
@@ -387,95 +446,95 @@
         <div class="question-item">
           <label>18、您觉得学校的安全设施如何？<span class="required">*</span></label>
           <div class="options">
-            <li><label><input type="radio" name="q17" value="非常满意">①非常不好</label></li>
-            <li><label><input type="radio" name="q17" value="满意">②不好</label></li>
-            <li><label><input type="radio" name="q17" value="不满意">③一般</label></li>
-            <li><label><input type="radio" name="q17" value="非常不满意">④好</label></li>
-            <li><label><input type="radio" name="q17" value="非常满意">⑤非常好</label></li>
+            <li><label><input type="radio" name="q18" value="非常满意">①非常不好</label></li>
+            <li><label><input type="radio" name="q18" value="满意">②不好</label></li>
+            <li><label><input type="radio" name="q18" value="不满意">③一般</label></li>
+            <li><label><input type="radio" name="q18" value="非常不满意">④好</label></li>
+            <li><label><input type="radio" name="q18" value="非常满意">⑤非常好</label></li>
           </div>
         </div>
 
         <div class="question-item">
           <label>19、根据您孩子的反映，学校食堂的饭菜怎样？<span class="required">*</span></label>
           <div class="options">
-            <li><label><input type="radio" name="q17" value="非常满意">①学校没有食堂</label></li>
-            <li><label><input type="radio" name="q17" value="满意">②非常不好</label></li>
-            <li><label><input type="radio" name="q17" value="不满意">③不太好</label></li>
-            <li><label><input type="radio" name="q17" value="非常不满意">④一般</label></li>
-            <li><label><input type="radio" name="q17" value="非常满意">⑤比较好</label></li>
-            <li><label><input type="radio" name="q17" value="非常好">⑥非常好</label></li>
+            <li><label><input type="radio" name="q19" value="非常满意">①学校没有食堂</label></li>
+            <li><label><input type="radio" name="q19" value="满意">②非常不好</label></li>
+            <li><label><input type="radio" name="q19" value="不满意">③不太好</label></li>
+            <li><label><input type="radio" name="q19" value="非常不满意">④一般</label></li>
+            <li><label><input type="radio" name="q19" value="非常满意">⑤比较好</label></li>
+            <li><label><input type="radio" name="q19" value="非常好">⑥非常好</label></li>
           </div>
         </div>
 
         <div class="question-item">
           <label>20、您觉得学校的各项费用（如校服、班费、学生保险、餐费等）是否合理？<span class="required">*</span></label>
           <div class="options">
-            <li><label><input type="radio" name="q17" value="非常满意">①非常不合理</label></li>
-            <li><label><input type="radio" name="q17" value="满意">②不合理</label></li>
-            <li><label><input type="radio" name="q17" value="不满意">③说不清楚</label></li>
-            <li><label><input type="radio" name="q17" value="非常不满意">④合理</label></li>
-            <li><label><input type="radio" name="q17" value="非常满意">⑤非常合理</label></li>
+            <li><label><input type="radio" name="q20" value="非常满意">①非常不合理</label></li>
+            <li><label><input type="radio" name="q20" value="满意">②不合理</label></li>
+            <li><label><input type="radio" name="q20" value="不满意">③说不清楚</label></li>
+            <li><label><input type="radio" name="q20" value="非常不满意">④合理</label></li>
+            <li><label><input type="radio" name="q20" value="非常满意">⑤非常合理</label></li>
           </div>
         </div>
 
         <div class="question-item">
           <label>21、学校除了重视学生成绩外，还重视德、体、美、劳等方面的素养发展吗？<span class="required">*</span></label>
           <div class="options">
-            <li><label><input type="radio" name="q17" value="非常满意">①不清楚</label></li>
-            <li><label><input type="radio" name="q17" value="满意">②非常不重视</label></li>
-            <li><label><input type="radio" name="q17" value="不满意">③不重视</label></li>
-            <li><label><input type="radio" name="q17" value="非常不满意">④一般</label></li>
-            <li><label><input type="radio" name="q17" value="非常满意">⑤重视</label></li>
-            <li><label><input type="radio" name="q17" value="非常重视">⑥非常重视</label></li>
+            <li><label><input type="radio" name="q21" value="非常满意">①不清楚</label></li>
+            <li><label><input type="radio" name="q21" value="满意">②非常不重视</label></li>
+            <li><label><input type="radio" name="q21" value="不满意">③不重视</label></li>
+            <li><label><input type="radio" name="q21" value="非常不满意">④一般</label></li>
+            <li><label><input type="radio" name="q21" value="非常满意">⑤重视</label></li>
+            <li><label><input type="radio" name="q21" value="非常重视">⑥非常重视</label></li>
           </div>
         </div>
 
         <div class="question-item">
           <label>22、您觉得学校老师的责任心怎么样？<span class="required">*</span></label>
           <div class="options">
-            <li><label><input type="radio" name="q17" value="非常满意">①非常不负责</label></li>
-            <li><label><input type="radio" name="q17" value="满意">②不负责</label></li>
-            <li><label><input type="radio" name="q17" value="非常不满意">③一般</label></li>
-            <li><label><input type="radio" name="q17" value="非常满意">④负责</label></li>
-            <li><label><input type="radio" name="q17" value="非常重视">⑤非常负责</label></li>
+            <li><label><input type="radio" name="q22" value="非常满意">①非常不负责</label></li>
+            <li><label><input type="radio" name="q22" value="满意">②不负责</label></li>
+            <li><label><input type="radio" name="q22" value="非常不满意">③一般</label></li>
+            <li><label><input type="radio" name="q22" value="非常满意">④负责</label></li>
+            <li><label><input type="radio" name="q22" value="非常重视">⑤非常负责</label></li>
           </div>
         </div>
 
         <div class="question-item">
           <label>23、您对孩子所在班级教师的教学水平满意吗？<span class="required">*</span></label>
           <div class="options">
-            <li><label><input type="radio" name="q17" value="非常满意">①非常不满意</label></li>
-            <li><label><input type="radio" name="q17" value="满意">②不满意</label></li>
-            <li><label><input type="radio" name="q17" value="非常不满意">③一般</label></li>
-            <li><label><input type="radio" name="q17" value="非常满意">④满意</label></li>
-            <li><label><input type="radio" name="q17" value="非常重视">⑤非常满意</label></li>
+            <li><label><input type="radio" name="q23" value="非常满意">①非常不满意</label></li>
+            <li><label><input type="radio" name="q23" value="满意">②不满意</label></li>
+            <li><label><input type="radio" name="q23" value="非常不满意">③一般</label></li>
+            <li><label><input type="radio" name="q23" value="非常满意">④满意</label></li>
+            <li><label><input type="radio" name="q23" value="非常重视">⑤非常满意</label></li>
           </div>
         </div>
 
         <div class="question-item">
           <label>24、您觉得学校的校风怎么样？<span class="required">*</span></label>
           <div class="options">
-            <li><label><input type="radio" name="q17" value="非常满意">①非常不好</label></li>
-            <li><label><input type="radio" name="q17" value="满意">②不好</label></li>
-            <li><label><input type="radio" name="q17" value="非常不满意">③一般</label></li>
-            <li><label><input type="radio" name="q17" value="非常满意">④好</label></li>
-            <li><label><input type="radio" name="q17" value="非常重视">⑤非常好</label></li>
+            <li><label><input type="radio" name="q24" value="非常满意">①非常不好</label></li>
+            <li><label><input type="radio" name="q24" value="满意">②不好</label></li>
+            <li><label><input type="radio" name="q24" value="非常不满意">③一般</label></li>
+            <li><label><input type="radio" name="q24" value="非常满意">④好</label></li>
+            <li><label><input type="radio" name="q24" value="非常重视">⑤非常好</label></li>
           </div>
         </div>
 
         <div class="question-item">
           <label>25、您觉得孩子就读的学校有特色吗？<span class="required">*</span></label>
           <div class="options">
-            <li><label><input type="radio" name="q17" value="非常满意">①说不清楚</label></li>
-            <li><label><input type="radio" name="q17" value="满意">②没有特色</label></li>
-            <li><label><input type="radio" name="q17" value="非常不满意">③有特色，请简单列举</label></li>
+            <li><label><input type="radio" name="q25" value="非常满意">①说不清楚</label></li>
+            <li><label><input type="radio" name="q25" value="满意">②没有特色</label></li>
+            <li><label><input type="radio" name="q25" value="非常不满意">③有特色，请简单列举</label></li>
           </div>
         </div>
 
         <!-- 开放问题部分 -->
         <div class="question-item">
           <label>26、如果您觉得孩子就读的学校有特色，请简单列举：</label>
-          <textarea name="q18" placeholder=""></textarea>
+          <textarea name="q26" placeholder=""></textarea>
         </div>
 
         <div class="question-item">
@@ -492,17 +551,17 @@
         <div class="question-item">
           <label>28、总体来说，您对孩子就读的这所学校满意吗？<span class="required">*</span></label>
           <div class="options">
-            <li><label><input type="radio" name="q17" value="非常满意">①非常不满意</label></li>
-            <li><label><input type="radio" name="q17" value="满意">②不满意</label></li>
-            <li><label><input type="radio" name="q17" value="非常不满意">③一般</label></li>
-            <li><label><input type="radio" name="q17" value="非常满意">④满意</label></li>
-            <li><label><input type="radio" name="q17" value="非常重视">⑤非常满意</label></li>
+            <li><label><input type="radio" name="q28" value="非常满意">①非常不满意</label></li>
+            <li><label><input type="radio" name="q28" value="满意">②不满意</label></li>
+            <li><label><input type="radio" name="q28" value="非常不满意">③一般</label></li>
+            <li><label><input type="radio" name="q28" value="非常满意">④满意</label></li>
+            <li><label><input type="radio" name="q28" value="非常重视">⑤非常满意</label></li>
           </div>
         </div>
 
         <div class="question-item">
           <label>29、为了让您的孩子拥有一个更好的学习生活环境，您最希望学校做的一件事情是？（自主填写）</label>
-          <textarea name="q19" placeholder=""></textarea>
+          <textarea name="q29" placeholder=""></textarea>
         </div>
 
 
@@ -514,10 +573,64 @@
     </div>
   </div>
   <script>
-    function submitSurvey() {
-      // 直接跳转到 jieshu.html
-      location.href = 'jieshu.html';
+    function showModal(message) {
+            var modal = document.getElementById("customModal");
+            var modalMessage = document.getElementById("modalMessage");
+
+            // 设置提示信息并显示弹窗
+            modalMessage.innerText = message;
+            modal.style.display = "block";
+
+            // 设置 3 秒后自动隐藏弹窗
+            setTimeout(function () {
+                modal.style.display = "none";
+            }, 1500); // 3000 毫秒 = 3 秒
+        }
+
+        // 点击遮罩层关闭弹窗
+        window.onclick = function (event) {
+            var modal = document.getElementById("customModal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };
+
+        window.onclick = function (event) {
+            var modal = document.getElementById("customModal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };
+ function submitSurvey() {
+        let allQuestionsAnswered = true;
+
+        for (let i = 1; i <= 29; i++) {
+            const radios = document.getElementsByName("q" + i);
+            let isChecked = false;
+
+            for (let j = 0; j < radios.length; j++) {
+                if (radios[j].checked) {
+                    isChecked = true;
+                    break;
+                }
+            }
+
+            if (!isChecked) {
+                showModal("必填项不能为空");
+                allQuestionsAnswered = false;
+                break;
+            }
+        }
+
+        if (allQuestionsAnswered) {
+            // 可以选择提交表单数据，或者跳转页面
+            location.href = 'jieshu.html';
+            return false; // 阻止默认表单提交行为
+        } else {
+            return false; // 阻止提交
+        }
     }
+
   </script>
 </body>
 
