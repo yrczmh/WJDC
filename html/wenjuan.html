@@ -383,7 +383,7 @@
 
         <div class="question-item">
           <label>12、如果您知道学校的办学理念，请具体写出：</label>
-          <textarea name="q18" placeholder=""></textarea>
+          <textarea name="q12" placeholder=""></textarea>
         </div>
 
         <div class="question-item">
@@ -551,11 +551,11 @@
         <div class="question-item">
           <label>28、总体来说，您对孩子就读的这所学校满意吗？<span class="required">*</span></label>
           <div class="options">
-            <li><label><input type="radio" name="q28" value="非常满意">①非常不满意</label></li>
-            <li><label><input type="radio" name="q28" value="满意">②不满意</label></li>
-            <li><label><input type="radio" name="q28" value="非常不满意">③一般</label></li>
-            <li><label><input type="radio" name="q28" value="非常满意">④满意</label></li>
-            <li><label><input type="radio" name="q28" value="非常重视">⑤非常满意</label></li>
+            <li><label><input type="radio" name="q28" value="非常不满意">①非常不满意</label></li>
+            <li><label><input type="radio" name="q28" value="不满意">②不满意</label></li>
+            <li><label><input type="radio" name="q28" value="一般">③一般</label></li>
+            <li><label><input type="radio" name="q28" value="满意">④满意</label></li>
+            <li><label><input type="radio" name="q28" value="非常满意">⑤非常满意</label></li>
           </div>
         </div>
 
@@ -601,12 +601,18 @@
                 modal.style.display = "none";
             }
         };
- function submitSurvey() {
-        let allQuestionsAnswered = true;
+    function submitSurvey() {
 
+        const requiredQuestions = [];
 
+        // 生成 q1 到 q29 的题目编号，排除 q12 和 q26
         for (let i = 1; i <= 29; i++) {
-            if (i === 12 || i === 26) continue;
+            if (i !== 12 && i !== 26) {
+                requiredQuestions.push(i);
+            }
+        }
+
+        for (let i of requiredQuestions) {
             const radios = document.getElementsByName("q" + i);
             let isChecked = false;
 
@@ -617,19 +623,15 @@
                 }
             }
 
-            if (!isChecked) {
-                showModal("必填项不能为空");
-                allQuestionsAnswered = false;
-                break;
-            }
-        }
 
-        if (allQuestionsAnswered) {
-            // 可以选择提交表单数据，或者跳转页面
-            location.href = 'jieshu.html';
-            return false; // 阻止默认表单提交行为
-        } else {
-            return false; // 阻止提交
+        if (!isChecked) {
+        // 设置已提交标志
+            showModal('必填项不能为空')
+            return false;
+            } else {
+                location.href = 'jieshu.html';
+                return false;
+        }
         }
     }
 

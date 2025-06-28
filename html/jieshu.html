@@ -38,6 +38,8 @@
   <script>
     function submitSurvey() {
       // 直接跳转到 jieshu.html
+        //
+      localStorage.setItem("hasSubmitted", "true");
       location.href = 'index.html';
     }
   </script>

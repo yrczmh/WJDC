@@ -140,6 +140,8 @@
         var LoginType = 2;
         var currentVerifyCode = ''; // 存储当前验证码
 
+
+
         function showModal(message) {
             var modal = document.getElementById("customModal");
             var modalMessage = document.getElementById("modalMessage");
@@ -217,6 +219,7 @@
                 login();
             });
 
+
             login = function () {
                 var userId = $("#userid").val() || "";
                 var pwd = $("#pwd").val() || "";
@@ -224,7 +227,8 @@
                 var phone = $("#phone").val() || "";
                 var userVerifyCode = $("#userVerifyCode").val() || "";
                 var model = {};
-                
+                const hasSubmitted = localStorage.getItem("hasSubmitted");
+
                 // 验证码验证
                 if (code.trim().length <= 0 || code.trim() == "") {
                     showModal("验证码不能为空");
@@ -232,11 +236,11 @@
                 }
                 if (code.toUpperCase() !== currentVerifyCode) {
                             // 示例调用
-                    showModal("验证码错误");
+                    showModal("验证码错误！");
                     refreshVerifyCode();
                     return false;
                 }
-                
+
                 // 邀请码验证(LoginType=2时)
                 if (LoginType == 2) {
                     if (userVerifyCode.trim().length !== 6) {
@@ -248,7 +252,11 @@
                         return false;
                     }
                     // 邀请码验证通过，直接跳转到问卷页面
-                    showModal2("登录成功");
+                    if (LoginType == 2 && hasSubmitted === "true") {
+                    showModal("不能重复参与");
+                    return false;
+                }
+                    showModal2("登录成功！");
                     layer.msg('登录成功', { time: 1000, icon: 6 }, function () {
                         // 确保跳转到正确的问卷页面并传递GUID参数
                         location.href = 'wenjuan.html?guid=' + QuestionnaireGuid;
