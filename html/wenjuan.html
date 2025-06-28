@@ -560,7 +560,7 @@
         </div>
 
         <div class="question-item">
-          <label>29、为了让您的孩子拥有一个更好的学习生活环境，您最希望学校做的一件事情是？（自主填写）</label>
+          <label>29、为了让您的孩子拥有一个更好的学习生活环境，您最希望学校做的一件事情是？（自主填写）<span class="required">*</span></label>
           <textarea name="q29" placeholder=""></textarea>
         </div>
 
@@ -604,7 +604,9 @@
  function submitSurvey() {
         let allQuestionsAnswered = true;
 
+
         for (let i = 1; i <= 29; i++) {
+            if (i === 12 || i === 26) continue;
             const radios = document.getElementsByName("q" + i);
             let isChecked = false;
 
